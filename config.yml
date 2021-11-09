@@ -80,7 +80,7 @@ features:
     minimum_balance: 5000000
   auto_blackjack:
     enable: true
-    amount: 50
+    amount: 500
     pause_below_balance: 100
     pause_above_balance: 50000000
     logic_table:
