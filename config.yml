@@ -12,8 +12,8 @@
 clusters:
   default:
     master:
-      token: ""
-      channel_id: ""
+      token: "NTM4NDg1MTc3ODk5NTQ4Njcy.YhoUZA.1euuT8UK39AbK8U-ELhEcuvMbf8"
+      channel_id: "947391714371461184"
 
 shifts:
   - state: "active"
@@ -60,7 +60,7 @@ features:
     laptop: true
     shovel: true
   auto_sell:
-    enable: false
+    enable: true
     items:
       - "boar"
       - "dragon"
@@ -80,7 +80,7 @@ features:
     minimum_balance: 5000000
   auto_blackjack:
     enable: true
-    amount: 50
+    amount: 1500
     pause_below_balance: 100
     pause_above_balance: 50000000
     logic_table:
@@ -355,7 +355,7 @@ features:
         soft19: "s"
         soft20: "s"
   auto_tidepod:
-    enable: false
+    enable: true
     buy_lifesaver_on_death: true
   balance_check:
     enable: true
