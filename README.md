@@ -7,7 +7,7 @@ I just added some small changes as it was not being updated
 
 ## Changes from upstream
 - Added support for using trade to transfer items and coins
-- can trade multiple items at once see [`trade object`](#trade-object) in [features object](#features-object)
+- can trade multiple items at once see [`trade object`](#trade-object) in [`features object`](#features-object)
 - detects if the instance does not have enough money due to tax and attempts to account for tax
 
 ## Bugfixes
