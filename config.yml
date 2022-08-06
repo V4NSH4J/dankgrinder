@@ -10,12 +10,22 @@
 # asking for support on GitHub or Discord.
 
 clusters:
-  default:
+  cluster_1:
     master:
       token: ""
       channel_id: ""
-
+      
+    instances:
+      - token: ""
+        channel_id: ""
+      - token: ""
+        channel_id: ""
+        
 shifts:
+  - state: "dormant"
+    duration:
+      base: 1
+      variation: 10
   - state: "active"
     duration:
       base: 7200
@@ -47,13 +57,17 @@ features:
     crime : true
     guess: false
 
+  trade:
+    max_items: 2
+    delay: 1000
+
   scratch:
     enable: false
     amount: 50
     priority: false
 
-  custom_commands:
-  - value: "pls work mod"
+  # custom_commands:
+  # - value: "pls work mod"
   auto_buy:
     fishing_pole: true
     hunting_rifle: true
@@ -74,12 +88,55 @@ features:
     items:
       - "bank"
       - "pizza"
+      - "diaper"
+      - "pepe"
+      - "potato"
+      - "pepestatue"
+      - "boar"
+      - "freshbread"
+      - "cookie"
+      - "deer"
+      - "ant"
+      - "dragon"
+      - "duck"
+      - "exoticfish"
+      - "commonfish"
+      - "garbage"
+      - "jellyfish"
+      - "junk"
+      - "legendaryfish"
+      - "rabbit"
+      - "rarefish"
+      - "seaweed"
+      - "skunk"
+      - "stickbug"
+      - "trash"
+      - "worm"
+      - "aetheryxflower"
+      - "armpithair"
+      - "badoszcard"
+      - "bean"
+      - "bunnysapron"
+      - "bean"
+      - "bluephallicobject"
+      - "bluesplane"
+      - "sand"
+      - "bunnysapron"
+      - "candy"
+      - "corncob"
+      - "corndog"
+      - "ducttape"
+      - "fossil"
+      - "bread"
+      - "goldenphallic"
+      - "meme"
+      - "normie"
   auto_share:
-    enable: false
-    maximum_balance: 8000000
-    minimum_balance: 5000000
-  auto_blackjack:
     enable: true
+    maximum_balance: 5000000
+    minimum_balance: 500000
+  auto_blackjack:
+    enable: false
     amount: 50
     pause_below_balance: 100
     pause_above_balance: 50000000
@@ -359,9 +416,9 @@ features:
     buy_lifesaver_on_death: true
   balance_check:
     enable: true
-    interval: 180
-  log_to_file: true
-  verbose_log_to_stdout: false
+    interval: 1800
+  log_to_file: false
+  verbose_log_to_stdout: true
   debug: false
 
 compatibility:
@@ -1143,7 +1200,7 @@ compatibility:
     hunt: 63
     blackjack: 13
     sell: 6
-    gift: 26
+    gift: 8
     share: 13
     dig: 42
     work: 3600

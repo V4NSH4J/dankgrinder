@@ -105,6 +105,7 @@ type Features struct {
 	VerboseLogToStdout bool            `yaml:"verbose_log_to_stdout"`
 	Debug              bool            `yaml:"debug"`
 	Scratch            Scratch         `yaml:"scratch"`
+	Trade          	   Trade           `yaml:"trade"`
 }
 type Scratch struct {
 	Enable   bool `yaml:"enable"`
@@ -143,6 +144,11 @@ type AutoGift struct {
 	Enable   bool     `yaml:"enable"`
 	Interval int      `yaml:"interval"`
 	Items    []string `yaml:"items"`
+}
+
+type Trade struct {
+	MaxItems  int     `yaml:"max_items"`
+	Delay     int     `yaml:"delay"`
 }
 
 type CustomCommand struct {

@@ -41,6 +41,16 @@ type Instance struct {
 	ws                *discord.WSConn
 	initialBalance    int
 	balance           int
+
+	// auto-trade variables
+	totalTradeItems   int
+	iteratedItems     int
+	currentTradeItems int
+	tradeList         string
+
+	lastTradeTime     time.Time
+	queuingInstances  int 
+
 	startingTime      time.Time
 	lastState         string
 	lastBalanceUpdate time.Time
@@ -75,6 +85,8 @@ func (in *Instance) Start() error {
 			in.Logger.Warnf("nobody to auto-share to, no master instance available")
 		}
 	}
+
+	in.totalTradeItems = len(in.Features.AutoGift.Items)
 
 	// For now, we assume that in.SuspicionAvoidance, in.Compat and in.Features
 	// are correct. They are currently validated in the main function. Ideally,
@@ -252,4 +264,8 @@ func (in *Instance) LastBalanceUpdate() time.Time {
 
 func (in *Instance) Balance() int {
 	return in.balance
+}
+
+func (in *Instance) IsActive() bool {
+	return in.lastState != config.ShiftStateDormant
 }

@@ -33,7 +33,7 @@ func (in *Instance) hl(msg discord.Message) {
 	if hint[0] == 50 {
 		in.sdlr.ResumeWithCommand(&scheduler.Command{
 			Actionrow: 1,
-			Button: 3,
+			Button: 2,
 			Message: msg,
 			Log: "Responding with Jackpot",
 		})

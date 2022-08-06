@@ -41,11 +41,12 @@ func (in *Instance) updateBalance(balance int) {
 		in != in.Master {
 		in.sdlr.PrioritySchedule(&scheduler.Command{
 			Value: fmt.Sprintf(
-				"pls share %v <@%v>",
+				"pls trade %v <@%v>",
 				balance-in.Features.AutoShare.MinimumBalance,
 				in.Master.Client.User.ID,
 			),
 			Log: "sharing all balance above minimum with master instance",
+			AwaitResume: true,
 		})
 	}
 	in.balance = balance

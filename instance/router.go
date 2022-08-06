@@ -45,7 +45,8 @@ var exp = struct {
 	guessHint,
 	workEventEmoji,
 	shopEvent,
-	event *regexp.Regexp
+	event,
+	insufficientCoins *regexp.Regexp
 }{
 	search:            regexp.MustCompile(`Pick from the list below and type the name in chat\.\s\x60(.+)\x60,\s\x60(.+)\x60,\s\x60(.+)\x60`),
 	huntEvent:         regexp.MustCompile(`Dodge the Fireball\n(\s*)+<:Dragon:861390869696741396>\n(\s*)<:FireBall:883714770748964864>\n(\s*):levitate:`),
@@ -78,6 +79,7 @@ var exp = struct {
 	fishCatch:         regexp.MustCompile(`Catch the fish!\n(\s*)<:(.+):[\d]+>\n:bucket::bucket::bucket:`),
 	fishCatch2:        regexp.MustCompile(`Catch the fish!\n<:(.+):[\d]+>\n:bucket::bucket::bucket:`),
 	shopEvent:         regexp.MustCompile(`What is the \*\*(.+)\*\* of this item?`),
+	insufficientCoins: regexp.MustCompile(`You have ([\d,]+) coins, you can't give them ([\d,]+) \(\+ ⏣ ([\d,]+) tax\)`),
 }
 
 var numFmt = message.NewPrinter(language.English)
@@ -372,6 +374,7 @@ func (in *Instance) router() *discord.MessageRouter {
 		Channel(in.ChannelID).
 		Author(DMID).
 		HasEmbeds(true).
+		RespondsTo(in.Client.User.ID).
 		EmbedContains("seconds to answer").
 		Handler(in.trivia)
 
@@ -527,6 +530,40 @@ func (in *Instance) router() *discord.MessageRouter {
 			Author(DMID).
 			HasEmbeds(true).
 			Handler(in.gift)
+	}
+
+	// Auto Accept trade as both instance and master
+	if (in.Features.AutoShare.Enable || in.Features.AutoGift.Enable) &&
+	in.Master != nil &&
+	in != in.Master {
+		rtr.NewRoute().
+			Channel(in.ChannelID).
+			Author(DMID).
+			HasEmbeds(true).
+			RespondsTo(in.Client.User.ID).
+			EmbedContains("Continue trade?").
+			Handler(in.confirmTrade)
+
+		rtr.NewRoute().
+			Channel(in.ChannelID).
+			Author(DMID).
+			HasEmbeds(true).
+			RespondsTo(in.Client.User.ID).
+			Mentions(in.Master.Client.User.ID).
+			EmbedContains("Continue trade?").
+			Handler(in.confirmTradeAsMaster)
+	}
+
+	// Auto-share (detect if share fails and retry)
+	if in.Features.AutoShare.Enable && 
+	in.Master != nil &&
+	in != in.Master {
+		rtr.NewRoute().
+			Channel(in.ChannelID).
+			Author(DMID).
+			RespondsTo(in.Client.User.ID).
+			ContentMatchesExp(exp.insufficientCoins).
+			Handler(in.shareWithTax)
 	}
 
 	// Auto-tidepod

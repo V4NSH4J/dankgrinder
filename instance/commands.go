@@ -28,8 +28,7 @@ const (
 	blackjackBaseCmdValue = "pls bj"
 	sellBaseCmdValue      = "pls sell"
 	shopBaseCmdValue      = "pls shop"
-	giftBaseCmdValue      = "pls gift"
-	shareBaseCmdValue     = "pls share"
+	tradeBaseCmdValue     = "pls trade"
 	digCmdValue           = "pls dig"
 	workCmdValue          = "pls work"
 	triviaCmdValue        = "pls trivia"
@@ -56,12 +55,17 @@ func shopCmdValue(item string) string {
 	return fmt.Sprintf("%v %v", shopBaseCmdValue, item)
 }
 
-func giftCmdValue(amount, item, id string) string {
-	return fmt.Sprintf("%v %v %v <@%v>", giftBaseCmdValue, amount, item, id)
+func tradeCmdValue(itemlist, id string) string {
+	// itemlist will always have a trailing space so it is not necessary here
+	return fmt.Sprintf("%v %v<@%v>", tradeBaseCmdValue, itemlist, id)
+}
+
+func tradeItemListValue(amount, item string) string {
+	return fmt.Sprintf("%v %v ", amount, item)
 }
 
 func shareCmdValue(amount, id string) string {
-	return fmt.Sprintf("%v %v <@%v>", shareBaseCmdValue, amount, id)
+	return fmt.Sprintf("%v %v <@%v>", tradeBaseCmdValue, amount, id)
 }
 
 // commands returns a command pointer slice with all commands that should be

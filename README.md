@@ -1,8 +1,23 @@
-# This fork (V4NSH4J/dankgrinder) is no longer being maintained. It has more up-to-date functions than the parent repository however with Dank Memer updates, certain features are bound to be dysfunctional. However, this repository provides are very nice base which isn't detected by Discord and is compatible with the latest Discord interactions introduced in api v9. Feel free to fork and add your own features and fix existing ones! 
+## Credits
+forked from [V4NSH4J/dankgrinder](https://github.com/V4NSH4J/dankgrinder)
+
+[original project repository](https://github.com/dankgrinder/dankgrinder)
+
+I just added some small changes as it was not being updated
+
+## Changes from upstream
+- Added support for using trade to transfer items and coins
+- can trade multiple items at once see [`trade object`](#trade-object) in [`features object`](#features-object)
+- detects if the instance does not have enough money due to tax and attempts to account for tax
+
+## Bugfixes
+- Now logs an error when coins sent it more then amount of coins (could cause a loop if it tries to account for tax and retrade)
+
 
 # Dank Grinder [![](https://goreportcard.com/badge/github.com/dankgrinder/dankgrinder)](https://goreportcard.com/report/github.com/dankgrinder/dankgrinder) [![](https://img.shields.io/github/workflow/status/dankgrinder/dankgrinder/Go)](https://github.com/dankgrinder/dankgrinder/actions) ![](https://img.shields.io/github/license/dankgrinder/dankgrinder) [![](https://img.shields.io/github/v/release/dankgrinder/dankgrinder)](https://github.com/dankgrinder/dankgrinder/releases/latest) ![](https://img.shields.io/github/downloads/dankgrinder/dankgrinder/total)
 The most feature-rich, advanced Dank Memer automation tool (Now compatible with buttons!).  
 Made by github.com/dankgrinder & Buttons, work, trivia, crime, search, dig, guess the number, scratch and fish added by github.com/v4nsh4j
+trade and bugfixes by github.com/gold512
 
 Want to join the community or need support? [Join our Discord](https://discord.gg/Fjzpq8YPSn) (Be sure to join with an unconnected fresh alt to prevent bot blacklist on main). Have a question? [Create a question issue](https://github.com/dankgrinder/dankgrinder/issues/new?assignees=&labels=question&template=question.md&title=). Want to suggest a feature? [Create a suggestion issue](https://github.com/dankgrinder/dankgrinder/issues/new?assignees=&labels=suggestion&template=suggestion.md&title=). Encountered a bug? [Report a bug](https://github.com/dankgrinder/dankgrinder/issues/new?assignees=&labels=bug&template=bug-report.md&title=). Want to contribute? [Read our contribution guidelines](https://github.com/dankgrinder/dankgrinder/blob/master/CONTRIBUTING.md).
 
@@ -21,6 +36,15 @@ Want to join the community or need support? [Join our Discord](https://discord.g
 * Automatically uses tidepods and buys lifesavers when dying from them
 * Automatically buys a fishing pole, hunting rifle or laptop if they have broken
 * Can Automate most of dank memer's commands! 
+
+## Tips 
+### Using too much CPU/Network
+Try using discord permissions to only allow the instances to see channels they need to use 
+
+### Trade not accepting
+Try using smaller clusters, the master has a button ratelimit quota and can only click so many buttons
+Then just add the masters of those clusters as instances in another config to collect from them (in a tree pattern) 
+
 ## Getting started
 
 ### Installation
@@ -128,6 +152,7 @@ Name | Type | Description
 `log_to_file` | boolean | Whether or not to log errors and information to a file
 `debug` | boolean | Enable logging debug level information. Currently has no effect
 `scratch` | [scratch object](#scratch-object) | Options for automatically using the scratch command.
+`trade` | [trade object](#trade-object) | Options for trading 
 
 ### Commands object
 Name | Type | Description
@@ -173,6 +198,12 @@ Name | Type | Description
 `enable` | boolean | Whether or not to enable automatic gifting to the master instance
 `interval` | integer | The interval at which items will be gifted during an active shift. If set to 0, items will only be gifted once at the beginning of every active shift
 `items` | array of strings | The Dank Memer item ids of the items to gift
+
+### trade object
+Name | Type | Description
+---- | ---- | ----
+`max_items` | integer | Maximum amount of items per trade
+`delay` | integer | Minimum amount of time between accepting trades for masters in milliseconds (to reduce ratelimits) 
 
 ### Gifting & Sharing confirmations update 
 Run a custom command "pls settings confirmations false" on your alts for gifting and sharing to function properly!
@@ -250,7 +281,7 @@ Name | Type | Description
 `gift` | integer | The cooldown of the gift command in seconds, set a few seconds higher to account for network delay
 `share` | integer | The cooldown of the share command in seconds, set a few seconds higher to account for network delay
 `dig` | integer | The cooldown of the dig command in seconds, set a few seconds higher to account for network delay
-'work' | integer | The cooldown of the work command in seconds, set a few seconds higher to account for network delay
+`work` | integer | The cooldown of the work command in seconds, set a few seconds higher to account for network delay
 `trivia` | integer | The cooldown of the trivia command in seconds, set a few seconds higher to account for network delay 
 `crime` | integer | The cooldown of the crime command in seconds, set a few seconds higher to account for network delay
 `scratch` | integer | The cooldown of the scratch command in seconds, set a few seconds higher to account for network delay
@@ -261,6 +292,7 @@ Name | Type | Description
 ---- | ---- | ----
 `typing` | [typing object](#typing-object) | Options for the use of typing when sending messages
 `message_delay` | [message delay object](#message-delay-object) | Delay between receiving a message and starting to type and send a response
+`button_press` | [button press delay object](#button-press-delay-object)
 
 ### Typing object
 Name | Type | Description
@@ -274,6 +306,13 @@ Name | Type | Description
 ---- | ---- | ----
 `base` | integer | The base delay in milliseconds. [Read more about base and variation](#base-and-variation)
 `variation` | integer | The random variation of the delay in milliseconds. [Read more about base and variation](#base-and-variation)
+
+### Button press delay object
+Name | Type | Description
+---- | ---- | ----
+`base` | integer | The base delay in milliseconds. [Read more about base and variation](#base-and-variation)
+`variation` | integer | The random variation of the delay in milliseconds. [Read more about base and variation](#base-and-variation)
+
 
 ### Base and variation
 A base is a value that forms the base for a final result; it is the value that the program starts with.

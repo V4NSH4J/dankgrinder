@@ -85,6 +85,14 @@ func validateFeatures(features Features) error {
 		if features.AutoShare.MinimumBalance > features.AutoShare.MaximumBalance {
 			return fmt.Errorf("auto-share minumum must be smaller than or equal to maximum")
 		}
+
+		if features.Trade.MaxItems <= 0 {
+			return fmt.Errorf("max items per trade must be greater than 0, encountered %v", features.Trade.MaxItems)
+		}
+
+		if features.Trade.Delay <= 0 {
+			return fmt.Errorf("trade delay must be greater than 0, encountered %v", features.Trade.Delay)
+		}
 	}
 	if features.AutoTidepod.Enable && features.AutoTidepod.Interval < 0 {
 		return fmt.Errorf("auto-tidepod interval must be greater than or equal to 0")

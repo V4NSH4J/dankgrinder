@@ -75,6 +75,10 @@ type Command struct {
 
 	Button int
 
+	// allow override of default channel of instance 
+	// allows some commands like trade to be sent in the master's channel
+	ChannelID string
+
 	Message discord.Message
 }
 
@@ -132,6 +136,10 @@ func (s *Scheduler) Start() error {
 		}
 	}()
 	return nil
+}
+
+func (s *Scheduler) Pause() {
+	s.awaitResume = true;
 }
 
 // AwaitResumeTrigger returns the value of the command that caused the await
@@ -263,8 +271,13 @@ func (s *Scheduler) send(cmd *Command) {
 			"delay":  d.String(),
 			"typing": tt.String(),
 		}).Infof("%v: %v", info, cmd.Value)
+		
+		channel := s.ChannelID
+		if cmd.ChannelID != "" {
+			channel = cmd.ChannelID
+		}
 
-		err := s.Client.SendMessage(cmd.Value, s.ChannelID, tt)
+		err := s.Client.SendMessage(cmd.Value, channel, tt)
 		switch err {
 		case nil:
 		case discord.ErrForbidden, discord.ErrUnauthorized, discord.ErrNotFound:
